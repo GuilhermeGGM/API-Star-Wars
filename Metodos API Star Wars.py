@@ -1,6 +1,28 @@
-import pandas as pd
 import requests
+import pandas as pd
 
+
+def getPessoas(person):
+        cont = 0
+        personagens = []
+        while cont < person:
+            cont += 1
+            personagens.append(str(cont))
+        lista_colunas = []
+        for coluna in personagens:
+            JSONContent = requests.get('https://swapi.dev/api/people/' + coluna).json()
+            if 'error' not in JSONContent:
+                lista_colunas.append(
+                    [JSONContent['name'], JSONContent['height'], JSONContent['mass'],
+                     JSONContent['hair_color'], JSONContent['skin_color'], JSONContent['eye_color'],
+                     JSONContent['birth_year'], JSONContent['gender'], JSONContent['homeworld'], JSONContent['films'],
+                     JSONContent['species'], JSONContent['vehicles'], JSONContent['starships'], JSONContent['created'],
+                     JSONContent['edited'], JSONContent['url']])
+
+        dataset = pd.DataFrame(lista_colunas)
+        dataset.columns = ['name', 'height', 'mass', 'hair_color', 'skin_color', 'eye_color', 'birth_year',
+                           'surface_water', 'population', 'residents', 'films', 'created', 'edited', 'url']
+        return dataset
 
 def getPlanetas(plan):
     cont = 0
@@ -21,30 +43,6 @@ def getPlanetas(plan):
     dataset.columns = ['name', 'rotation_period', 'orbital_period', 'diameter', 'climate', 'gravity', 'terrain',
                        'surface_water', 'population', 'residents', 'films', 'created', 'edited', 'url']
     return dataset
-
-
-def getPessoas(person):
-    cont = 0
-    personagens = []
-    while cont < person:
-        cont += 1
-        personagens.append(str(cont))
-    lista_colunas = []
-    for coluna in personagens:
-        JSONContent = requests.get('https://swapi.dev/api/people/' + coluna).json()
-        if 'error' not in JSONContent:
-            lista_colunas.append(
-                [JSONContent['name'], JSONContent['height'], JSONContent['mass'],
-                 JSONContent['hair_color'], JSONContent['skin_color'], JSONContent['eye_color'],
-                 JSONContent['birth_year'], JSONContent['gender'], JSONContent['homeworld'], JSONContent['films'],
-                 JSONContent['species'], JSONContent['vehicles'], JSONContent['starships'], JSONContent['created'],
-                 JSONContent['edited'], JSONContent['url']])
-
-    dataset = pd.DataFrame(lista_colunas)
-    dataset.columns = ['name', 'height', 'mass', 'hair_color', 'skin_color', 'eye_color', 'birth_year',
-                           'surface_water', 'population', 'residents', 'films', 'created', 'edited', 'url']
-    return dataset
-
 
 def getSpecies(especies):
     cont = 0
@@ -69,7 +67,3 @@ def getSpecies(especies):
                        'eye_colors', 'average_lifespan', 'homeworld', 'language', 'people', 'films', 'created',
                        'edited', 'url']
     return dataset
-
-
-dataset = getPlanetas(10)
-df = pd.DataFrame(dataset)
