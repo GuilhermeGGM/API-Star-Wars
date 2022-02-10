@@ -11,8 +11,16 @@ da saga Star Wars.
 Clone o projeto:
 >git@github.com:GuilhermeGGM/API-Star-Wars.git
 
+  >Versão do Python utilizada: 3.6
+
 No terminal, ecreva o seguinte código para criar a Virtualenv:
->source venv/bin/activate
+>Instalar: pip install virtualenv
+  
+>Criar virtualenv: virtualenv env
+  
+>Ativar: source venv/bin/activate
+  
+>Desativar: deactivate
 
 Instale as dependências:
 >pip install -r requirements.txt
