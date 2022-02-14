@@ -4,6 +4,9 @@ import requests
 
 class Get_StarWars:
     def __init__(self, url):
+        self.url = url
+        
+    def valid_url(self, url):
         if url == 'https://swapi.dev/api/planets/':
             self.url_plan = url
         elif url == 'https://swapi.dev/api/people/':
@@ -14,6 +17,7 @@ class Get_StarWars:
             raise Exception('URL inválida')
 
     def getPlanetas(self, plan):
+        url = Get_StarWars.valid_url(self.url)
         cont = 0
         planetas = []
         while cont < plan:
@@ -21,7 +25,7 @@ class Get_StarWars:
             planetas.append(str(cont))
         lista_colunas = []
         for coluna in planetas:
-            JSONContent = requests.get(self.url_plan + coluna).json()
+            JSONContent = requests.get(url + coluna).json()
             if 'error' not in JSONContent:
                 lista_colunas.append([JSONContent['name'], JSONContent['rotation_period'], JSONContent['orbital_period'],
                         JSONContent['diameter'], JSONContent['climate'], JSONContent['gravity'], JSONContent['terrain'],
@@ -34,6 +38,7 @@ class Get_StarWars:
         return dataset
 
     def getPessoas(self, person):
+        Get_StarWars.valid_url(self.url)
         cont = 0
         personagens = []
         while cont < person:
@@ -78,3 +83,4 @@ class Get_StarWars:
                            'eye_colors', 'average_lifespan', 'homeworld', 'language', 'people', 'films', 'created',
                            'edited', 'url']
         return dataset
+
