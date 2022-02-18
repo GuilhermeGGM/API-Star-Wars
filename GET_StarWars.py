@@ -4,16 +4,22 @@ import requests
 
 class Get_StarWars:
     def __init__(self, url):
-        if url == 'https://swapi.dev/api/planets/':
-            self.url_plan = url
-        elif url == 'https://swapi.dev/api/people/':
-            self.url_person = url
-        elif url == 'https://swapi.dev/api/species/':
-            self.url_species = url
+        self.url = url
+    def valid_url(self):
+        if self.url == 'https://swapi.dev/api/planets/':
+            url_plan = self.url
+            return url_plan
+        elif self.url == 'https://swapi.dev/api/people/':
+            url_person = self.url
+            return url_person
+        elif self.url == 'https://swapi.dev/api/species/':
+            url_species = self.url
+            return url_species
         else:
             raise Exception('URL inválida')
 
     def getPlanetas(self, plan):
+        url = self.valid_url()
         cont = 0
         planetas = []
         while cont < plan:
@@ -21,7 +27,7 @@ class Get_StarWars:
             planetas.append(str(cont))
         lista_colunas = []
         for coluna in planetas:
-            JSONContent = requests.get(self.url_plan + coluna).json()
+            JSONContent = requests.get(url + coluna).json()
             if 'error' not in JSONContent:
                 lista_colunas.append([JSONContent['name'], JSONContent['rotation_period'], JSONContent['orbital_period'],
                         JSONContent['diameter'], JSONContent['climate'], JSONContent['gravity'], JSONContent['terrain'],
@@ -34,6 +40,7 @@ class Get_StarWars:
         return dataset
 
     def getPessoas(self, person):
+        Url = self.valid_url()
         cont = 0
         personagens = []
         while cont < person:
@@ -41,7 +48,7 @@ class Get_StarWars:
             personagens.append(str(cont))
         lista_colunas = []
         for coluna in personagens:
-            JSONContent = requests.get(self.url_person+ coluna).json()
+            JSONContent = requests.get(Url + coluna).json()
             if 'error' not in JSONContent:
                 lista_colunas.append(
                     [JSONContent['name'], JSONContent['height'], JSONContent['mass'],
@@ -56,6 +63,7 @@ class Get_StarWars:
         return dataset
 
     def getSpecies(self, especies):
+        Url = self.valid_url()
         cont = 0
         species = []
         while cont < especies:
@@ -63,7 +71,7 @@ class Get_StarWars:
             species.append(str(cont))
         lista_colunas = []
         for coluna in species:
-            JSONContent = requests.get(self.url_species + coluna).json()
+            JSONContent = requests.get(Url + coluna).json()
             if 'error' not in JSONContent:
                 lista_colunas.append([JSONContent['name'], JSONContent['classification'], JSONContent['designation'],
                                       JSONContent['average_height'], JSONContent['skin_colors'],
@@ -72,7 +80,6 @@ class Get_StarWars:
                                       JSONContent['language'], JSONContent['people'],
                                       JSONContent['films'], JSONContent['created'], JSONContent['edited'],
                                       JSONContent['url']])
-
         dataset = pd.DataFrame(lista_colunas)
         dataset.columns = ['name', 'classification','designation', 'average_height', 'skin_colors', 'hair_colors',
                            'eye_colors', 'average_lifespan', 'homeworld', 'language', 'people', 'films', 'created',
@@ -82,3 +89,4 @@ class Get_StarWars:
 
 a = Get_StarWars('https://swapi.dev/api/planets/')
 b = a.getPlanetas(10)
+a.getPlanetas(10)

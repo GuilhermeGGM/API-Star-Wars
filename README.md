@@ -15,8 +15,9 @@ Clone o projeto:
 
 No terminal, ecreva o seguinte código para criar a Virtualenv:
 >Instalar: pip install virtualenv
-  
->Criar virtualenv: virtualenv env
+
+>Criar virtualenv: virtualenv venv
+
   
 >Ativar: source venv/bin/activate
   
